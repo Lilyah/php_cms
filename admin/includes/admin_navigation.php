@@ -16,7 +16,7 @@
                 
                 <!--Dropdown top-right-->
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Lilyah <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -42,7 +42,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#posts_dropdown"><i class="fa fa-fw fa-desktop"></i> Posts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="posts_dropdown" class="collapse">
                             <li>
-                                <a href="#">View All Posts</a>
+                                <a href="../admin/posts.php">View All Posts</a>
                             </li>
                             <li>
                                 <a href="#">Add Post</a>
@@ -53,7 +53,7 @@
                     
                     
                     <li>
-                        <a href="bootstrap-grid.html"><i class="fa fa-fw fa-bars"></i> Categories</a>
+                        <a href="../admin/categories.php"><i class="fa fa-fw fa-bars"></i> Categories</a>
                     </li>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-users"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
@@ -68,7 +68,7 @@
                     </li>
                     
                     
-                    <li class="active">
+                    <li>
                         <a href="blank-page.html"><i class="fa fa-fw fa-comments"></i> Comments</a>
                     </li>
                     

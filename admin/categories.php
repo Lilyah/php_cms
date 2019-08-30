@@ -61,7 +61,6 @@ include "includes/admin_navigation.php";
                 <th colspan="2">Action</th> 
             </tr>
             </thead>
-                            
             <tbody>
             <?php
             /* Getting the categories from the DB */
@@ -86,3 +85,8 @@ include "includes/admin_navigation.php";
 <?php 
 include "includes/admin_footer.php"; 
 ?>
+
+
+
+
+       о
