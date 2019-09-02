@@ -1,5 +1,14 @@
 <?php
 
+function confirmQuery($result){
+    global $connection;
+    if(!$result){
+        die("QUERY FAILED" . mysqli_error($connection));
+    }
+}
+
+
+
 function insert_categories(){
     global $connection;
     if(isset($_POST['submit'])){
@@ -49,8 +58,22 @@ function deleteCategories(){
         $the_cat_id = $_GET['delete'];                                    
         $query = "DELETE FROM categories WHERE cat_id = {$the_cat_id}";
         $delete_query = mysqli_query($connection, $query);
-        /* Refreshing the page, so deleting to happend with one click */
+        /* Refreshing the page, so deleting to hapend with one click */
         header("Location: categories.php");
+    }
+}
+
+
+
+
+function deletePosts(){
+    global $connection;
+    if(isset($_GET['delete'])){
+        $the_post_id = $_GET['delete'];
+        $query = "DELETE FROM posts WHERE post_id = {$the_post_id}";
+        $delete_query = mysqli_query($connection, $query);
+        /* Refreshing the page, so deleting to hapend with one click */
+        header("Location: posts.php");
     }
 }
 
@@ -84,17 +107,11 @@ function findAllPosts()
         echo "<td>{$post_tags}</td>";
         echo "<td>{$post_comment_count}</td>";
         echo "<td>{$post_date}</td>";
+        echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";
+        echo "<td><a href='posts.php?delete={$post_id}'>Delete</a></td>";
         echo "</tr>";
-
     }
 }
-
-
-
-
-
-
-
 
 
 

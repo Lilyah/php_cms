@@ -36,12 +36,15 @@ include "includes/admin_navigation.php";
                     }
 
                     switch($source){
-                        case '34': echo "NICE"; break;
-                        case '100': echo "NICE2"; break;
+                        case 'add_post': include "includes/add_post.php"; break;
+                        case 'edit_post': include "includes/edit_post.php"; break;
                         case '200': echo "NICE3"; break;
 
-                        default: include "includesview_all_posts.php";
+                        default: include "includes/view_all_posts.php"; break;
                     }
+
+
+
 
 
 

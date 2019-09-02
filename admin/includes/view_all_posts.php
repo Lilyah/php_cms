@@ -10,6 +10,7 @@
                             <th>Tags</th>
                             <th>Comments</th>
                             <th>Date</th>
+                            <th colspan="2">Action</th>
                         </tr>
                         </thead>
 
@@ -22,3 +23,12 @@
 
                         </tbody>
                     </table>
+
+                  <?php
+                  deletePosts();
+
+                  // editPosts();
+
+
+
+                   ?>
