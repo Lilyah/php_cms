@@ -17,8 +17,14 @@ include "includes/navigation.php";
             <div class="col-md-8">
 
                 <?php
+
+                /* Filtering the posts by category */
+                if(isset($_GET['category'])){
+                    $post_category_id = $_GET['category'];
+                }
+
                 /* Setting the posts information from the DB */
-                $query = "SELECT * FROM posts";
+                $query = "SELECT * FROM posts WHERE post_category_id = $post_category_id";
                 $select_all_posts_query = mysqli_query($connection, $query);
 
                 while($row = mysqli_fetch_assoc($select_all_posts_query)){
@@ -27,7 +33,7 @@ include "includes/navigation.php";
                     $post_author = $row['post_author'];
                     $post_date = $row['post_date'];
                     $post_image = $row['post_image'];
-                    $post_content = substr($row['post_content'], 0, 260) . "...";  //shorter text display
+                    $post_content = substr($row['post_content'], 0, 260) . "..."; //shorter text display
                     ?>
 
                 <h1 class="page-header">

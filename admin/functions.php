@@ -101,7 +101,19 @@ function findAllPosts()
         echo "<td>{$post_id}</td>";
         echo "<td>{$post_author}</td>";
         echo "<td>{$post_title}</td>";
-        echo "<td>{$post_category_id}</td>";
+
+        /* Displaying categories NAME by using categories id */
+        $query = "SELECT * FROM categories WHERE cat_id = $post_category_id";
+        $select_categories_id = mysqli_query($connection, $query);
+
+        /* Setting the categories and categories id for the table from the DB */
+        while($row = mysqli_fetch_assoc($select_categories_id)) {
+            $cat_id = $row['cat_id'];
+            $cat_title = $row['cat_title'];
+
+            echo "<td>{$cat_title}</td>";
+        }
+
         echo "<td>{$post_status}</td>";
         echo "<td><img width='72' height='42' style='display: block; margin-left: auto; margin-right: auto' src='../images/$post_image'></td>"; // displays the img and setting the size and position
         echo "<td>{$post_tags}</td>";

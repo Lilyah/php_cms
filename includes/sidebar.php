@@ -38,10 +38,12 @@
             <div class="col-lg-12"> 
                 <ul class="list-unstyled">
                     <?php
-                    /*Setting the categories for the sidebar from the DB */
+                    /* Setting the categories for the sidebar from the DB
+                    and making them filter for posts */
                     while($row = mysqli_fetch_assoc($select_categories_sidebar)){
                     $cat_title = $row['cat_title'];
-                    echo "<li><a href=\"#\">{$cat_title}</a></li>";
+                    $cat_id = $row['cat_id'];
+                    echo "<li><a href='category.php?category=$cat_id'>{$cat_title}</a></li>";
                     }
                     ?>
                 </ul>
