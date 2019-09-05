@@ -18,7 +18,7 @@ include "includes/navigation.php";
 
                 <?php
                 /* Setting the posts information from the DB */
-                $query = "SELECT * FROM posts";
+                $query = "SELECT * FROM posts WHERE post_status = 'Published' ";
                 $select_all_posts_query = mysqli_query($connection, $query);
 
                 while($row = mysqli_fetch_assoc($select_all_posts_query)){

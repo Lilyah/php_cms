@@ -2,12 +2,11 @@
     <thead>
     <tr>
         <th>Id</th>
-        <th>Author</th>
-        <th>Comment</th>
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>
         <th>Email</th>
-        <th>Status</th>
-        <th>In Response to</th>
-        <th>Date</th>
+        <th>Role</th>
         <th colspan="3">Action</th>
     </tr>
     </thead>
@@ -16,10 +15,10 @@
 
 <?php
 /* Getting and setting the comments from the DB */
-findAllComments();
-approveComments();
-unapproveComments();
-deleteComments();
+findAllUsers();
+//approveComments();
+//unapproveComments();
+//deleteComments();
 ?>
 
     </tbody>

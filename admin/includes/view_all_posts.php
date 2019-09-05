@@ -19,16 +19,9 @@
                         <?php
                         /* Getting and setting the posts from the DB */
                         findAllPosts();
+                        deletePosts();
                         ?>
 
                         </tbody>
                     </table>
 
-                  <?php
-                  deletePosts();
-
-                  // editPosts();
-
-
-
-                   ?>

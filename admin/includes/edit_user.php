@@ -116,6 +116,34 @@ if(isset($_POST['update_post'])){
         </textarea>
     </div>
 
+
+    <!-- Dropdown menu for selecting categories -->
+    <div class="form-group">
+        <label for="user_role">User Role</label>
+        <br>
+        <select name="user_role" id="">
+            <?php
+            $query = "SELECT * FROM users";
+            $select_users = mysqli_query($connection, $query);
+
+            confirmQuery($select_users);
+
+            /*Setting the categories and categories id for the table from the DB */
+            while ($row = mysqli_fetch_assoc($select_users)) {
+                $user_id = $row['user_id'];
+                $user_role = $row['user_role'];
+
+                echo "<option value='{$user_id}'>$user_role</option>";
+            }
+            ?>
+        </select>
+    </div>
+
+
+
+
+
+
     <div class="form-group">
         <input type="submit" class="btn btn-primary" name="update_post" value="Update Post">
     </div>

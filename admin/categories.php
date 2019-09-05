@@ -86,7 +86,3 @@ include "includes/admin_navigation.php";
 include "includes/admin_footer.php"; 
 ?>
 
-
-
-
-       о
