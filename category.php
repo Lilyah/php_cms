@@ -1,8 +1,5 @@
 <?php
 include "includes/header.php";
-//include "includes/db.php";
-
-/* Navigation */
 include "includes/navigation.php";
 ?>
 
@@ -10,12 +7,10 @@ include "includes/navigation.php";
 
     <!-- Page Content -->
     <div class="container">
-
         <div class="row">
 
             <!-- Blog Entries Column -->
             <div class="col-md-8">
-
                 <?php
 
                 /* Filtering the posts by category */

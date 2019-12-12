@@ -20,8 +20,8 @@ include "includes/admin_navigation.php";
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    Welcome to admin
-                    <small><br>Author name here</small>
+                    Welcome to admin,
+                    <small><?php echo $_SESSION['username']?></small>
                 </h1>
 
 

@@ -1,29 +1,30 @@
 <?php
 
-if(isset($_POST['create_post'])){
+if(isset($_POST['create_user'])){
 
-    $post_title = mysqli_real_escape_string($connection, $_POST['title']);
-    $post_author = mysqli_real_escape_string($connection, $_POST['author']);
-    $post_category_id = mysqli_real_escape_string($connection, $_POST['post_category']);
-    $post_status = mysqli_real_escape_string($connection,$_POST['post_status']);
+    //$user_id = mysqli_real_escape_string($connection, $_POST['user_id']);
+    $user_firstname = mysqli_real_escape_string($connection, $_POST['user_firstname']);
+    $user_lastname = mysqli_real_escape_string($connection, $_POST['user_lastname']);
+    $user_role = mysqli_real_escape_string($connection, $_POST['user_role']);
+    $username = mysqli_real_escape_string($connection,$_POST['username']);
+    $user_email = mysqli_real_escape_string($connection,$_POST['user_email']);
+    $user_password = mysqli_real_escape_string($connection,$_POST['user_password']);
 
-    $post_image = $_FILES['image']['name'];
-    $post_image_temp = $_FILES['image']['tmp_name']; //for temp on the srv
+    $user_password = password_hash($user_password, PASSWORD_BCRYPT, array('cost' => 10)); //crypt the password
 
-    $post_tags = mysqli_real_escape_string($connection, $_POST['post_tags']);
-    $post_content = mysqli_real_escape_string($connection, $_POST['post_content']);
-    $post_date = date('d-m-y');
 
-    move_uploaded_file($post_image_temp, "../images/$post_image");
+//    $post_image = $_FILES['image']['name'];
+//    $post_image_temp = $_FILES['image']['tmp_name']; //for temp on the srv
+//    move_uploaded_file($post_image_temp, "../images/$post_image");
 
-    $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_status) VALUES ({$post_category_id},'{$post_title}','{$post_author}', now(),'{$post_image}','{$post_content}','{$post_tags}','{$post_status}')";
+    $query = "INSERT INTO users(username, user_password, user_firstname, user_lastname, user_email, user_role) VALUES ('{$username}','{$user_password}','{$user_firstname}','{$user_lastname}','{$user_email}','{$user_role}')";
 
-    $create_post_query = mysqli_query($connection, $query);
+    $create_user_query = mysqli_query($connection, $query);
 
-    confirmQuery($create_post_query);
+    confirmQuery($create_user_query);
 
+    header("Location: users.php"); // when submited to open View all users
 }
-
 
 ?>
 
@@ -48,8 +49,8 @@ if(isset($_POST['create_post'])){
         <label for="user_role">User Role</label>
         <br>
         <select name="user_role" id="">
-            <option selected="selected" value="subscriber">Subscriber</option> <!-- Subscriber to be default option -->
-            <option value="admin">Admin</option>
+            <option selected="selected" value="subscriber">subscriber</option> <!-- Subscriber to be default option -->
+            <option value="admin">admin</option>
         </select>
     </div>
 

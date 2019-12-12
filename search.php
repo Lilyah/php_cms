@@ -1,25 +1,19 @@
 <?php
 include "includes/header.php";
-//include "includes/db.php";
-
-/* Navigation */
 include "includes/navigation.php";
 ?>
 
     <!-- Page Content -->
     <div class="container">
-
-        <div class="row">
+]        <div class="row">
 
             <!-- Blog Entries Column -->
             <div class="col-md-8">
 
                 <?php
-
-                /* SEARCH */
+]                /* SEARCH */
                 if (isset($_POST['submit'])) {
                     $search = $_POST['search'];
-
 
                     $query = "SELECT * FROM posts WHERE post_tags LIKE '%$search%' ";
                     $search_query = mysqli_query($connection, $query);
@@ -53,35 +47,28 @@ include "includes/navigation.php";
                             <p class="lead">
                                 <!--Blog Post Author-->by <a href="index.php"><?php echo $post_author ?></a>
                             </p>
-                            <!--Blog Post Date--><p><span
+                                <!--Blog Post Date--><p><span
                                         class="glyphicon glyphicon-time"></span> <?php echo $post_date ?></p>
                             <hr>
                             <img class="img-responsive" src="images/<?php echo $post_image; ?>" alt="">
                             <hr>
                             <!--Blog Post Content--><p><?php echo $post_content ?></p>
-                            <a class="btn btn-primary" href="#">Read More <span
-                                        class="glyphicon glyphicon-chevron-right"></span></a>
+                            <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                             <hr>
-
                             <?php
                         }
                     }
                 }
 ?>
 
-
-
             </div>
-
             <!-- Blog Sidebar Widgets Column -->
             <?php
             include "includes/sidebar.php";
             ?>
-
         </div>
         <!-- /.row -->
-
         <hr>
 
     <!-- Footer -->

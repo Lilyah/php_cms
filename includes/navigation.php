@@ -1,5 +1,6 @@
 <?php
-include "includes/db.php"
+include "includes/db.php";
+session_start();
 ?>
 
 <!-- Navigation -->
@@ -28,22 +29,26 @@ include "includes/db.php"
                     $cat_title = $row['cat_title'];
                     echo "<li><a href=\"#\">{$cat_title}</a></li>";
                 }
-
-
-
-
                 ?>
+
                 <li>
                     <a href="admin">Admin</a>
                 </li>
-<!--
+
                 <li>
-                    <a href="#">Services</a>
+                    <a href="registration.php">Registration</a>
                 </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li> 
--->
+
+                <?php
+                /* "Edit Post" will appear in navigation only if user_role is set */
+                if(isset($_SESSION['user_role'])){
+                    if(isset($_GET['p_id'])){
+                        $the_post_id = $_GET['p_id'];
+                        echo "<li><a href='admin/posts.php?source=edit_post&p_id={$the_post_id}'>Edit Post</a></li>";
+                    }
+                }
+                ?>
+
             </ul>
         </div>
         <!-- /.navbar-collapse -->

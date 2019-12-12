@@ -222,3 +222,11 @@ ul.alert-dropdown {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+
+.no-border {
+    border: none;
+    outline: none;
+}
+
+
+

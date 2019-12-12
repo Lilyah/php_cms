@@ -21,14 +21,14 @@ while ($row = mysqli_fetch_assoc($select_all_posts_by_id)) {
 }
 
 if(isset($_POST['update_post'])){
-    $post_author = $_POST['author'];
-    $post_title = $_POST['title'];
-    $post_category_id = $_POST['post_category'];
-    $post_status = $_POST['post_status'];
-    $post_image = $_FILES['image']['name'];
-    $post_image_temp = $_FILES['image']['tmp_name'];
-    $post_content = $_POST['post_content'];
-    $post_tags = $_POST['post_tags'];
+    $post_author = mysqli_real_escape_string($connection, $_POST['author']);
+    $post_title = mysqli_real_escape_string($connection, $_POST['title']);
+    $post_category_id = mysqli_real_escape_string($connection, $_POST['post_category']);
+    $post_status = mysqli_real_escape_string($connection, $_POST['post_status']);
+    $post_image = mysqli_real_escape_string($connection, $_FILES['image']['name']);
+    $post_image_temp = mysqli_real_escape_string($connection, $_FILES['image']['tmp_name']);
+    $post_content = mysqli_real_escape_string($connection, $_POST['post_content']);
+    $post_tags = mysqli_real_escape_string($connection, $_POST['post_tags']);
 
     move_uploaded_file($post_image_temp, "../images/$post_image");
 
@@ -56,6 +56,11 @@ if(isset($_POST['update_post'])){
 
     confirmQuery($update_post);
 
+    echo "<p class='bg-success'>Post Updated. <a href='../post.php?p_id={$the_post_id}'>View Post</a>";
+    echo " or <a href='posts.php'>Edit More Posts</a></p>";
+
+    // header ("Location: posts.php");
+
 }
 
 ?>
@@ -69,6 +74,8 @@ if(isset($_POST['update_post'])){
     </div>
 
     <div class="form-group">
+        <label for="title">Category</label>
+        <br>
         <select name="post_category" id="">
         <?php
             $query = "SELECT * FROM categories";
@@ -90,19 +97,66 @@ if(isset($_POST['update_post'])){
 
     <div class="form-group">
         <label for="title">Post Author</label>
-        <input value="<?php echo $post_author; ?>" type="text" class="form-control" name="author">
+        <br>
+
+        <?php
+        $query = "SELECT * FROM users ";
+        $select_all_users_query = mysqli_query($connection, $query);
+        $row = mysqli_fetch_assoc($select_all_users_query);
+        $user_role = $row ['user_role'];
+
+        if($user_role == 'subscriber'){
+            /* the author of the post to be only the loged in user */
+            ?>
+            <input class="no-border" name="author" value="<?php echo $post_author ?>" readonly>
+            <?php
+        }
+
+        if ($user_role == 'admin'){
+            /* if the loged in user is admin he can publish posts from any user from the db */
+            ?>
+            <select name="author" id="">
+                <?php
+                echo "<option value='{$post_author}'>$post_author</option>";
+
+                $query = "SELECT username FROM users ORDER BY username ASC";
+                $select_user = mysqli_query($connection, $query);
+
+                confirmQuery($select_user);
+
+                /* Setting the user names for the dropdown in add_post */
+                while ($row = mysqli_fetch_assoc($select_user)) {
+                    $username = $row['username'];
+
+                    echo "<option value='{$username}'>$username</option>";
+                }
+                ?>
+            </select>
+        <?php
+        }
+        ?>
     </div>
 
     <div class="form-group">
-        <label for="post_status">Post Status</label>
-        <input value="<?php echo $post_status; ?>" type="text" class="form-control" name="post_status">
+        <label for="title">Post Status</label>
+        <br>
+        <select name="post_status" id="">
+        <option selected='<?php $post_status; ?>'><?php echo $post_status; ?></option> <!-- to be default option -->
+        <?php
+        if($post_status == 'published'){
+            echo "<option value='draft'>draft</option>";
+        } else {
+            echo "<option value='published'>published</option>";
+        };
+        ?>
+    </select>
     </div>
 
     <div class="form-group">
         <label for="post_image">Post Image</label>
         <br>
         <img width="100" src="../images/<?php echo $post_image;?>"><br>
-        <input value="<?php echo $post_image; ?>" type="file" class="form-control" name="image">
+        <input value="<?php echo $post_image; ?>" type="file" class="no-border" name="image">
     </div>
 
     <div class="form-group">
@@ -112,7 +166,8 @@ if(isset($_POST['update_post'])){
 
     <div class="form-group">
         <label for="post_content">Post Content</label>
-        <textarea class="form-control" name="post_content" id="" cols="30" rows="10"><?php echo $post_content; ?>
+        <!-- id=body is from scripts.js for the editor -->
+        <textarea class="form-control" name="post_content" id="body" cols="30" rows="10"><?php echo $post_content; ?>
         </textarea>
     </div>
 

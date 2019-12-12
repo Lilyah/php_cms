@@ -9,28 +9,34 @@
                 </button>
                 <a class="navbar-brand" href="index.php">CMS Admin</a>
             </div>
+
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li><a href="../index.php"><i class="fa fa-home"></i> Home page </a></li>
-                
-                
-                <!--Dropdown top-right-->
+
+                <!-- Dropdown top-right -->
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Lilyah <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
+                        <?php
+                        if(isset($_SESSION['username'])){
+                            echo $_SESSION['username'];
+                        };
+                        ?>
+                    <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="../includes/logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
             </ul>
-    
-    
-    
+
+
+
     
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -49,9 +55,9 @@
                             </li>
                         </ul>
                     </li>
-                    
-                    
-                    
+
+
+
                     <li>
                         <a href="../admin/categories.php"><i class="fa fa-fw fa-bars"></i> Categories</a>
                     </li>
@@ -66,20 +72,20 @@
                             </li>
                         </ul>
                     </li>
-                    
-                    
+
+
                     <li>
                         <a href="comments.php"><i class="fa fa-fw fa-comments"></i> Comments</a>
                     </li>
-                    
-                    
+
+
                     <li>
-                        <a href="index-rtl.html"><i class="fa fa-fw fa-user"></i> Profile</a>
+                        <a href="profile.php"><i class="fa fa-fw fa-user"></i> Profile</a>
                     </li>
                 </ul>
             </div>
-    
-    
-    
+
+
             <!-- /.navbar-collapse -->
         </nav>
+

@@ -20,8 +20,8 @@ include "includes/admin_navigation.php";
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    Welcome to admin
-                    <small><br>Author name here</small>
+                    Welcome to admin,
+                    <small><?php echo $_SESSION['username']?></small>
                 </h1>
 
 
@@ -38,6 +38,7 @@ include "includes/admin_navigation.php";
                     switch($source){
                         case 'add_user': include "includes/add_user.php"; break;
                         case 'edit_user': include "includes/edit_user.php"; break;
+                        case 'search': include "includes/search_all_users.php"; break;
 
                         default: include "includes/view_all_users.php"; break;
                     }

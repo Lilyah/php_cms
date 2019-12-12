@@ -20,8 +20,8 @@ include "includes/admin_navigation.php";
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    Welcome to admin
-                    <small><br>Author name here</small>
+                    Welcome to admin,
+                    <small><?php echo $_SESSION['username']?></small>
                 </h1>
 
 
@@ -38,21 +38,26 @@ include "includes/admin_navigation.php";
                     switch($source){
                         case 'add_post': include "includes/add_post.php"; break;
                         case 'edit_post': include "includes/edit_post.php"; break;
+                        case 'delete_post':
+                            if(isset($_GET['p_id'])) {
+                                $the_post_id = $_GET['p_id'];
+                            }
+                            $query = "DELETE FROM posts WHERE post_id = {$the_post_id}";
+                            $delete_post = mysqli_query($connection, $query);
+
+                            if(!$delete_post){
+                                die("QUERY FAILED" . mysqli_error($connection));
+                            } else {
+                                echo "<p class='bg-success'>Post Deleted.</p>";
+                            }
+                            include "includes/view_all_posts.php";
+                            break;
+
+                        case 'search': include "includes/search_posts.php"; break;
 
                         default: include "includes/view_all_posts.php"; break;
                     }
-
-
-
-
-
-
                     ?>
-
-
-
-
-
 
                 </div>
             </div>

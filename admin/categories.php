@@ -1,6 +1,7 @@
 <?php 
 include "includes/admin_header.php";
 include "functions.php";
+//session_start();
 ob_start();
 ?>
 
@@ -19,8 +20,8 @@ include "includes/admin_navigation.php";
         <div class="row">
             <div class="col-lg-12">
             <h1 class="page-header">
-            Welcome to admin
-            <small><br>Author name here</small>
+            Welcome to admin,
+                <small><?php echo $_SESSION['username']?></small>
             </h1>
                         
             <div class="col-xs-6">
@@ -34,7 +35,7 @@ include "includes/admin_navigation.php";
             <form action="" method="post">
                 <div class="form-group">
                 <label for="cat-title">Add Category</label>
-                <input class="form-control" type="text" name="cat_title">                        
+                <input class="form-control" type="text" name="cat_title">
                 </div>
                             
                 <div class="form-group">
@@ -45,15 +46,20 @@ include "includes/admin_navigation.php";
             <?php 
             /* Include update_categories.php */                         
             if(isset($_GET['edit'])){
-                $cat_id = $_GET['edit'];
-                include "includes/update_categories.php";  
-            }                    
+                $cat_id = mysqli_real_escape_string($connection, $_GET['edit']);
+                include "includes/update_categories.php";
+                $message = "Category Updated2.";
+            } else {
+                $message = ""; //if the form is not submited to be no msg displaying
+            }
+
             ?>
             </div>
                 
             <!--Add Category Form-->
             <div class="col-xs-6">
-            <table class="table table-bordered table-hover">
+            <h6 class="text-center"><?php echo $message ;?></h6>
+            <table class="table sortable table-bordered table-hover">
             <thead>
             <tr>
                 <th>Id</th>
@@ -63,11 +69,14 @@ include "includes/admin_navigation.php";
             </thead>
             <tbody>
             <?php
+            /* Only logedin users can manage categories */
+            if(isset($_SESSION['user_role'])){
             /* Getting the categories from the DB */
             findAllCategories();
                                     
             /* Delete categories */
             deleteCategories();
+            }
             ?>
             </tbody>
             </table>

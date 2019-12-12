@@ -1,0 +1,5 @@
+
+/* Defining the color of class active_link */
+.pager li .active_link {
+    background: #333 !important;
+}

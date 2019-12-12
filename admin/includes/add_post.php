@@ -12,7 +12,7 @@ if(isset($_POST['create_post'])){
 
     $post_tags = mysqli_real_escape_string($connection, $_POST['post_tags']);
     $post_content = mysqli_real_escape_string($connection, $_POST['post_content']);
-    $post_date = date('d-m-y');
+    $post_date = mysqli_real_escape_string(date('d-m-y'));
 
     move_uploaded_file($post_image_temp, "../images/$post_image");
 
@@ -22,8 +22,13 @@ if(isset($_POST['create_post'])){
 
     confirmQuery($create_post_query);
 
-}
+    $the_post_id = mysqli_insert_id($connection); //takes the last created id from the DB
+    echo "<p class='bg-success'>Post Created. <a href='../post.php?p_id={$the_post_id}++'>View Post</a>";
+    echo " or <a href='posts.php?source=add_post'>Add Another Post</a></p>";
 
+   // header("Location: posts.php"); // when submited to open View all posts
+
+}
 
 ?>
 
@@ -59,7 +64,6 @@ if(isset($_POST['create_post'])){
             while ($row = mysqli_fetch_assoc($select_categories_id)) {
                 $cat_id = $row['cat_id'];
                 $cat_title = $row['cat_title'];
-
                 echo "<option value='{$cat_id}'>$cat_title</option>";
             }
             ?>
@@ -68,19 +72,96 @@ if(isset($_POST['create_post'])){
 
 
 
-    <div class="form-group">
-        <label for="title">Post Author</label>
-        <input type="text" class="form-control" name="author">
+    <div class="form-group" id="author">
+        <label for="author">Post Author</label>
+        <br>
+<?php
+
+
+$query = "SELECT * FROM users ";
+$select_all_users_query = mysqli_query($connection, $query);
+$row = mysqli_fetch_assoc($select_all_users_query);
+$user_role = $row ['user_role'];
+
+//$user_role = $_SESSION['user_role'];
+
+    if($user_role == 'subscriber'){
+        /* the author of the post to be only the loged in user */
+        //echo $_SESSION['username'];
+?>
+        <input class="no-border" name="author" value="<?php echo $_SESSION['username']; ?>" readonly>
+<?php
+
+        //echo $_SESSION['user_role'];
+    }
+
+    if ($user_role == 'admin'){
+    /* if the loged in user is admin he can publish posts from any user from the db */
+    ?>
+        <select name="author" id="">
+            <?php
+            $query = "SELECT username FROM users ORDER BY username ASC";
+            $select_user = mysqli_query($connection, $query);
+
+            confirmQuery($select_user);
+
+            /* Setting the user names for the dropdown in add_post */
+            while ($row = mysqli_fetch_assoc($select_user)) {
+                $username = $row['username'];
+
+                echo "<option value='{$username}'>$username</option>";
+            }
+            ?>
+        </select>
+        <?php
+        }
+        ?>
+
+
+
+
+
+        <!-- 2. if we want the author of the post to be input field -->
+<!--        <input type="text" class="form-control" name="author">-->
+
+<!-- 3. if we want the author to be drop down menu to choose -->
+
+
+    <!-- Dropdown menu for selecting witch user to be the Author of the post -->
+<!--    <div class="form-group">-->
+<!--        <label for="users">Post Author</label>-->
+<!--        <br>-->
+<!--        <select name="author" id="">-->
+<!--            --><?php
+//            $query = "SELECT * FROM users ORDER BY username ASC";
+//            $select_users = mysqli_query($connection, $query);
+//
+//            confirmQuery($select_users);
+//
+//            /* Setting the users and categories id for the table from the DB */
+//            while ($row = mysqli_fetch_assoc($select_users)) {
+//                $user_id = $row['user_id'];
+//                $username = $row['username'];
+//
+//                echo "<option value='{$user_id}'>$username</option>";
+//            }
+//            ?>
+<!--        </select>-->
     </div>
 
+
     <div class="form-group">
-        <label for="post_status">Post Status</label>
-        <input type="text" class="form-control" name="post_status">
+        <label for="status">Status</label>
+        <br>
+        <select name="post_status" id="">
+            <option selected='draft'>draft</option> <!-- to be default option -->
+            <option value='published'>published</option>
+        </select>
     </div>
 
     <div class="form-group">
         <label for="post_image">Post Image</label>
-        <input type="file" class="form-control" name="image">
+        <input type="file" name="image">
     </div>
 
     <div class="form-group">
@@ -90,7 +171,8 @@ if(isset($_POST['create_post'])){
 
     <div class="form-group">
         <label for="post_content">Post Content</label>
-        <textarea class="form-control" name="post_content" id="" cols="30" rows="10"></textarea>
+        <!-- id=body is from scripts.js for the editor -->
+        <textarea class="form-control" name="post_content" id="body" cols="30" rows="10"></textarea>
     </div>
 
     <div class="form-group">
