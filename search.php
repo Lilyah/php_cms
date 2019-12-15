@@ -5,13 +5,13 @@ include "includes/navigation.php";
 
     <!-- Page Content -->
     <div class="container">
-]        <div class="row">
+        <div class="row">
 
             <!-- Blog Entries Column -->
             <div class="col-md-8">
 
                 <?php
-]                /* SEARCH */
+                /* SEARCH */
                 if (isset($_POST['submit'])) {
                     $search = $_POST['search'];
 
