@@ -83,29 +83,28 @@ deletePosts();
 ?>
 
 
-
-
-<form action="" method='post'>
-    <table class="sortable table table-bordered table-hover">
-        <div class="row" > <!-- for the bulkOptionContaner, because Bootstrap columns have a 15px padding one each side
-                        while the bootstrap row has 15px of negative margin on each side -->
-
-
-            <!-- Search Form -->
-            <div class="well">
-                <form action="posts.php?source=search" method="post">
-                    <div class="input-group">
-                        <input name="search" type="text" class="form-control" placeholder="Search in posts...">
-                        <span class="input-group-btn">
+<!-- Search Field -->
+<div class="well">
+    <form action="posts.php?source=search" method="post">
+        <div class="input-group">
+            <input name="search" type="text" class="form-control" placeholder="Search in posts...">
+            <span class="input-group-btn">
                             <button name="submit" class="btn btn-default" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>
                         </button>
                         </span>
-                    </div>
-                </form><!--search form-->
-                <!-- /.input-group -->
-            </div>
+        </div>
+    </form><!--search form-->
+    <!-- /.input-group -->
+</div>
 
+
+
+<form method='post'>
+    <div style="overflow-x:auto;"> <!-- For responsive table -->
+        <table class="sortable table table-striped table-bordered table-hover table-condensed">
+            <div class="row" > <!-- for the bulkOptionContaner, because Bootstrap columns have a 15px padding one each side
+                        while the bootstrap row has 15px of negative margin on each side -->
 
             <div id="bulkOptionContainer" class="col-xs-4">
                 <select class="form-control" name="bulk_options" id="" placeholder="some">
@@ -122,8 +121,8 @@ deletePosts();
                 <a class="btn btn-primary" href="posts.php?source=add_post">Add New Post</a>
             </div>
 
-
         </div>
+
         <thead>
         <tr>
             <th><input type="checkbox" id="selectAllBoxes"></th>
@@ -140,8 +139,6 @@ deletePosts();
             <th>Date</th>
             <th colspan="3">Action</th>
         </tr>
-
-
         </thead>
 
         <tbody>
@@ -231,7 +228,6 @@ deletePosts();
     }
 } else { header("Location: posts.php"); }
 ?>
-
 
 
         </tbody>

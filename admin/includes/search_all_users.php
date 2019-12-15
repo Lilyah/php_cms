@@ -9,7 +9,7 @@ echo "Users Online Instant (with AJAX):"?> <span class="usersonline"></span>
 </div>
 
 
-
+<div style="overflow-x:auto;"> <!-- For responsive table -->
 <table class="sortable table table-striped table-bordered table-hover table-condensed">
 <thead>
     <tr>
@@ -99,3 +99,4 @@ deleteUsers();
 
     </tbody>
 </table>
+</div>

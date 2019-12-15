@@ -2,14 +2,14 @@
 
 <div class="page-header">
 <?php
-/* Users Online counteer showing */
+/* Users Online counter showing */
 echo "Users Online (with PHP, need refresh of the page): ".usersOnline();
 echo "<br>";
 echo "Users Online Instant (with AJAX):"?> <span class="usersonline"></span>
 </div>
 
 
-
+<div style="overflow-x:auto;"> <!-- For responsive table -->
 <table class="sortable table table-striped table-bordered table-hover table-condensed">
 <thead>
     <tr>
@@ -46,3 +46,4 @@ deleteUsers();
 
     </tbody>
 </table>
+</div>

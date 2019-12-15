@@ -1,4 +1,5 @@
-<table class="table sortable table-bordered table-hover">
+<div style="overflow-x:auto;"> <!-- For responsive table -->
+    <table class="table sortable table-bordered table-hover">
     <thead>
     <tr>
         <th>Id</th>
@@ -24,3 +25,4 @@ deleteComments();
 
     </tbody>
 </table>
+</div>

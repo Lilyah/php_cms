@@ -101,6 +101,7 @@ deletePosts();
 
 
 <form method='post'>
+    <div style="overflow-x:auto;"> <!-- For responsive table -->
     <table class="sortable table table-striped table-bordered table-hover table-condensed">
     <div class="row" > <!-- for the bulkOptionContaner, because Bootstrap columns have a 15px padding one each side
                         while the bootstrap row has 15px of negative margin on each side -->
@@ -121,8 +122,8 @@ deletePosts();
         <a class="btn btn-primary" href="posts.php?source=add_post">Add New Post</a>
     </div>
 
-
 </div>
+
     <thead>
         <tr>
             <th><input type="checkbox" id="selectAllBoxes"></th>
@@ -179,12 +180,7 @@ deletePosts();
     findAllPosts();
     ?>
 
-
-
-
-
      </tbody>
     </div>
-</table>
+    </table>
 </form>
-
