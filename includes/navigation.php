@@ -41,6 +41,7 @@ session_start();
                 </li>
 
                 <?php
+                /* Registration functionality */
                 /* "Edit Post" will appear in navigation only if user_role is set */
                 if(isset($_SESSION['user_role'])){
                     if(isset($_GET['p_id'])){
