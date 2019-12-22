@@ -11,10 +11,10 @@
 
 if(isset($_POST['submit'])) {
 
-    $header = mysqli_real_escape_string($connection, $_POST['email']);
-    $subject = mysqli_real_escape_string($connection, wordwrap($_POST['subject']));
-    $body = mysqli_real_escape_string($connection, $_POST['body']);
-    $to = "lilyah.boz@gmail.com";
+    $header = "From " .$_POST['email'];
+    $subject = wordwrap($_POST['subject']);
+    $body = $_POST['body'];
+    $to = "lilyah.dev@gmail.com";
 
     mail($to, $subject, $body, $header); // use wordwrap() if lines are longer than 70 characters
 }

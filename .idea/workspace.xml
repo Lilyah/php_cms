@@ -73,8 +73,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/contact.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+            <state relative-caret-position="100">
+              <caret line="9" column="34" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -211,7 +211,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="738" />
@@ -304,12 +304,12 @@
       <workItem from="1576238797046" duration="7262000" />
       <workItem from="1576833715146" duration="2000" />
       <workItem from="1576917547686" duration="1283000" />
-      <workItem from="1576919170201" duration="1839000" />
+      <workItem from="1576919170201" duration="2036000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="199852000" />
+    <option name="totallyTimeSpent" value="200049000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -727,8 +727,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/contact.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="100">
+          <caret line="9" column="34" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
         </state>
       </provider>
     </entry>
