@@ -7,10 +7,16 @@
 
 <?php
 
+/* Sedning emails functionality */
+
 if(isset($_POST['submit'])) {
-    $to = "support@lilyah.dev";
-    $subject = mysqli_real_escape_string($connection, $_POST['subject']);
+
+    $header = mysqli_real_escape_string($connection, $_POST['email']);
+    $subject = mysqli_real_escape_string($connection, wordwrap($_POST['subject']));
     $body = mysqli_real_escape_string($connection, $_POST['body']);
+    $to = "lilyah.boz@gmail.com";
+
+    mail($to, $subject, $body, $header); // use wordwrap() if lines are longer than 70 characters
 }
 
 ?>
