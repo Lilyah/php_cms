@@ -1,6 +1,5 @@
 <?php
 
-
 /* Functionality for checkboxes */
 if(isset($_POST['checkBoxArray'])){
     foreach($_POST['checkBoxArray'] as $postValueId) {

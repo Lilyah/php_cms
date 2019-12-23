@@ -28,6 +28,7 @@ session_start();
                 while($row = mysqli_fetch_assoc($select_all_categories_query)){
                     $cat_title = $row['cat_title'];
                     $cat_id = $row['cat_id'];
+
                     echo "<li><a href='category.php?category=$cat_id'>{$cat_title}</a></li>";
                 }
                 ?>
@@ -36,9 +37,19 @@ session_start();
                     <a href="admin">Admin</a>
                 </li>
 
+                <?php
+                /* If a user is logged in he doesnt see the registration and contact forms */
+                if(!isset($_SESSION['user_role'])) {
+                ?>
                 <li>
                     <a href="registration.php">Registration</a>
                 </li>
+                <li>
+                    <a href="contact.php">Contact</a>
+                </li>
+                 <?php
+                }
+                ?>
 
                 <?php
                 /* Registration functionality */
@@ -51,14 +62,41 @@ session_start();
                 }
                 ?>
 
-                <li>
-                    <a href="contact.php">Contact</a>
-                </li>
-
-
             </ul>
+
+            <?php
+            /* If user is not logged in can't see the top right username and dropdown */
+            if(isset($_SESSION['user_role'])) {
+                ?>
+            <ul class="nav navbar-right top-nav">
+                <!-- Dropdown top-right -->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
+                        <?php
+                        if(isset($_SESSION['username'])){
+                            echo "Logged in as " .$_SESSION['username'];
+                        };
+                        ?>
+                        <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="admin/profile.php"><i class="fa fa-fw fa-user"></i>Profile</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="includes/logout.php"><i class="fa fa-fw fa-power-off"></i>Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <?php
+            }
+            ?>
+
         </div>
         <!-- /.navbar-collapse -->
+
     </div>
     <!-- /.container -->
+
 </nav>

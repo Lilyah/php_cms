@@ -3,13 +3,7 @@ include "includes/admin_header.php";
 ?>
 
 
-
-
-
-
-
 <div id="wrapper">
-
 
     <!-- Navigation -->
     <?php
