@@ -1,4 +1,5 @@
 <?php
+ob_start();
 
 /* For more secure:
  * Collecting connection data into array and converting it to constants, uppercase.
