@@ -76,7 +76,7 @@ function deleteCategories(){
 function deletePosts()
 {
     global $connection;
-    if (isset($_GET['delete'])) {
+    if (isset($_POST['delete'])) {
         /*
         Only logedin users with can delete posts,
         no one outside from admin can't delete data
@@ -88,7 +88,7 @@ function deletePosts()
 
         if($user_role == 'admin' || $user_role == 'subscriber'){
 
-            $the_post_id = $_GET['delete'];
+            $the_post_id = $_POST['post_id'];
             $query = "DELETE FROM posts WHERE post_id = {$the_post_id}";
             $delete_query = mysqli_query($connection, $query);
             /* Refreshing the page, so deleting to happend with one click */
@@ -192,7 +192,26 @@ function findAllPosts()
             echo "<td>{$post_date}</td>";
             echo "<td><a href='../post.php?p_id={$post_id}' title='View post'><i class=\"fa fa-search\"></i></a></td>";
             echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}' title='Edit post'><i class=\"fa fa-pencil-square-o\"></i></a></td>";
-            echo "<td><a onClick=\"javascript: return confirm('Are you sure you want to delete the Post?') \" href='posts.php?source=delete_post&p_id={$post_id}' title='Delete post'><i class=\"fa fa-times\"></i></a></td>";
+
+            ?>
+<!-- Follows 2 types of code for DELETE functionality - with GETand with POST
+1. POST
+1.A. also changing in function DeletePosts:
+    * if (isset($_POST['delete'])) {
+    * $the_post_id = $_POST['post_id']; -->
+            <form method="post">
+            <input type="hidden" name="post_id" value="<?php echo $post_id?>">
+                <?php
+                echo '<td><input type="submit" class="btn btn-danger" name="delete" value="Delete"></td>';
+                ?>
+            </form>
+                <?php
+
+//2. GET
+//2.A. also changing in function DeletePosts to this:
+//    * if (isset($_GET['delete'])) {
+//    * $the_post_id = $_GET['delete'];
+//            echo "<td><a onClick=\"javascript: return confirm('Are you sure you want to delete the Post?') \" href='posts.php?source=delete_post&p_id={$post_id}' title='Delete post'><i class=\"fa fa-times\"></i></a></td>";
             echo "</tr>";
         }
     }
