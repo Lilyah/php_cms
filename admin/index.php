@@ -183,7 +183,7 @@ include "includes/admin_header.php";
                                 $element_text = ['All Posts', 'Active Post', 'Draft Posts', 'Comments', 'Pending comments', 'Users', 'Subscribers', 'Categories'];
                                 $element_count = [$post_count, $post_published_count, $post_draft_count, $comments_count, $unapproved_comments_count, $users_count, $subscriber_count, $categories_count];
 
-                                /* $i goes "in to" $element_text and $elemet_count and print out the values */
+                                /* $i goes "in to" $element_text and $element_count and print out the values */
                                 for($i=0; $i<8; $i++){
                                     echo "['{$element_text[$i]}'" . ", " . "{$element_count[$i]}], ";
                                 }

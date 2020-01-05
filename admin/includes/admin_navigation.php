@@ -12,7 +12,7 @@
 
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-                <li><a href="../index.php"><i class="fa fa-home"></i> Home page </a></li>
+                <li><a href="../index"><i class="fa fa-home"></i> Home page </a></li>
 
                 <!-- Dropdown top-right -->
                 <li class="dropdown">

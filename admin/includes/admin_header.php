@@ -8,7 +8,7 @@ session_start();
 <?php
 /* Acsess to admin only for users with roles */
 if(!isset($_SESSION['user_role'])){
-        header ("Location: ../index.php");
+        header ("Location: ../index");
     } else {
 
 }
