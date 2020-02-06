@@ -1,7 +1,7 @@
 <?php
 
 function redirect($location){
-    header("Location:" .$location);
+    header("Location:" . $location);
     exit;
 }
 
@@ -32,7 +32,7 @@ function isLoggedIn(){
 
 function checkIfUserIsLoggedInAndRedirect($redirectLocation=null){
     if (isLoggedIn()){
-        redirect($redirectLocation)
+        redirect($redirectLocation);
     }
 }
 
@@ -707,8 +707,11 @@ function register_user($username, $email, $password){
 function login_user($username, $password){
     global $connection;
 
-    $username = mysqli_real_escape_string($connection, trim($username));
-    $password = mysqli_real_escape_string($connection, trim($password));
+    $username = trim($username);
+    $password = trim($password);
+
+    $username = mysqli_real_escape_string($connection, $username);
+    $password = mysqli_real_escape_string($connection, $password);
 
     $query = "SELECT * FROM users WHERE username = '{$username}' ";
     $select_user_query = mysqli_query($connection, $query);
@@ -724,19 +727,23 @@ function login_user($username, $password){
         $db_user_firstname = $row['user_firstname'];
         $db_user_lastname = $row['user_lastname'];
         $db_user_role = $row['user_role'];
+
+        if(password_verify($password, $db_user_password)){ //Verifies that a password matches a hash
+            $_SESSION['username'] = $db_username;
+            $_SESSION['firstname'] = $db_user_firstname;
+            $_SESSION['lastname'] = $db_user_lastname;
+            $_SESSION['user_role'] = $db_user_role;
+
+            if(!$_SESSION['username']){
+                die("QUERY FAILED" . mysqli_error($connection));
+            }
+
+            redirect("admin");
+        } else {
+            return false;
+        }
     }
-
-    if(password_verify($password, $db_user_password)){ //Verifies that a password matches a hash
-        $_SESSION['username'] = $db_username;
-        $_SESSION['firstname'] = $db_user_firstname;
-        $_SESSION['lastname'] = $db_use_lastname;
-        $_SESSION['user_role'] = $db_user_role;
-
-        header("Location: ../admin");
-
-    } else {
-        header("Location: ../index.php");
-    }
+    return true;
 }
 
 ?>

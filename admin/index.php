@@ -1,5 +1,6 @@
 <?php 
 include "includes/admin_header.php";
+include_once "functions.php";
 ?>
 
 

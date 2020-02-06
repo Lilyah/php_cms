@@ -1,17 +1,8 @@
 <?php
 ob_start();
 include_once "../includes/db.php";
+include_once "functions.php";
 session_start();
-?>
-
-
-<?php
-/* Acsess to admin only for users with roles */
-if(!isset($_SESSION['user_role'])){
-        header ("Location: ../index");
-    } else {
-
-}
 ?>
 
 

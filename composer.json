@@ -1,0 +1,17 @@
+{
+    "name": "lilyah/cms",
+    "require": {
+        "phpmailer/phpmailer": "^6.1"
+    },
+    "authors": [
+        {
+            "name": "Lilyah Bozheva",
+            "email": "lilyah.boz@gmail.com"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "classes"
+        ]
+    }
+}

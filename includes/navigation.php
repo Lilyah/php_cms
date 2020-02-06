@@ -1,6 +1,7 @@
 <?php
-include "includes/db.php";
-session_start();
+include_once "includes/db.php";
+include_once "admin/functions.php";
+//session_start();
 ?>
 
 <!-- Navigation -->
@@ -34,28 +35,30 @@ session_start();
 
 
                 /* Admin will be visible only for logged in users */
-                if(isset($_SESSION['user_role'])) {
-                    ?>
-                    <li>
-                        <a href="admin">Admin</a>
-                    </li>
-
-                    <?php
-                }
                 /* If a user is logged in he doesnt see the registration and contact forms */
-                if(!isset($_SESSION['user_role'])) {
-                    ?>
-                    <li>
-                        <a href="registration">Registration</a>
-                    </li>
-                    <li>
-                        <a href="contact">Contact</a>
-                    </li>
-                 <?php
-                }
-                ?>
+                if(isset($_SESSION['user_role'])): echo "session going on"?>
+                <li>
+                    <a href="admin">Admin</a>
+                </li>
+                <li>
+                    <a href="includes/logout.php">Logout</a>
+                </li>
+
+                <?php endif;
+                if(!isset($_SESSION['user_role'])): ?>
+                <li>
+                    <a href="login">Login</a>
+                </li>
+                <li>
+                    <a href="registration">Registration</a>
+                </li>
+                <li>
+                    <a href="contact">Contact</a>
+                </li>
 
                 <?php
+                endif;
+
                 /* Registration functionality */
                 /* "Edit Post" will appear in navigation only if user_role is set */
                 if(isset($_SESSION['user_role'])){
@@ -102,5 +105,4 @@ session_start();
 
     </div>
     <!-- /.container -->
-
 </nav>

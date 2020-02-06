@@ -1,6 +1,6 @@
 <?php 
 include "includes/admin_header.php";
-include "functions.php";
+include_once "functions.php";
 //session_start();
 ob_start();
 ?>

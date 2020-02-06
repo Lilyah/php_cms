@@ -29,7 +29,7 @@ if(!$connection) {
      * Collecting connection data into array and converting it to constants, uppercase.
     */
 
-    /* For GLOBAL CON HEROKU*/
+//    /* For GLOBAL CON HEROKU*/
     $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 
     $server = $url["host"];
