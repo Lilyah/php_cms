@@ -2,14 +2,26 @@
 <?php
 include "includes/header.php";
 include "admin/functions.php";
+include "includes/navigation.php";
 
-?>
-<!-- Navigation -->
-<?php include "includes/navigation.php"; ?>
+require 'vendor/autoload.php';
 
+$dotenv = new \Dotenv\Dotenv(__DIR__);
+$dotenv->load();
 
+$options = array(
+    'cluster' => 'eu',
+    'useTLS' => true
+);
+$pusher = new Pusher\Pusher(
+    getenv('APP_KEY'),
+    getenv('APP_SECRET'),
+    getenv('APP_ID'),
+    $options
+);
+$data['message'] = 'hello world';
+$pusher->trigger('my-channel', 'my-event', $data);
 
-<?php
 
 if(isset($_POST['submit'])){
 
@@ -57,6 +69,10 @@ if(isset($_POST['submit'])){
 
     if(empty($error)){
         register_user($username, $email, $password);
+
+        $data['message'] = 'New user just registered: $username';
+        $pusher->trigger('notification', 'new_user', $data);
+
         login_user($username, $password);
     }
 }

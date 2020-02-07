@@ -116,3 +116,22 @@ include "includes/navigation.php";
 <?php
 include "includes/footer.php";
 ?>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="https://js.pusher.com/5.0/pusher.min.js"></script>
+        <script>
+
+            var pusher = new Pusher('9ec167a077be7bedd4ea', {
+                cluster: 'eu',
+                forceTLS: true
+            });
+
+            var channel = pusher.subscribe('notification');
+            channel.bind('new_user', function(data) {
+                toastr.success('Have fun storming the castle!', 'Miracle Max Says');
+                var message = data.message;
+            });
+        </script>
+
+
