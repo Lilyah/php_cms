@@ -1,5 +1,4 @@
 
-
 <div class="page-header">
 <?php
 /* Users Online counter showing */

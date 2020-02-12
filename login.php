@@ -2,7 +2,7 @@
 include "includes/db.php";
 include "includes/header.php";
 include "admin/functions.php";
-session_start();
+//session_start();
 
 
 checkIfUserIsLoggedInAndRedirect('admin/');

@@ -1,6 +1,6 @@
 <?php
 ob_start();
-
+session_start();
 /* For more secure:
  * Collecting connection data into array and converting it to constants, uppercase.
 */

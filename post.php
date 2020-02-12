@@ -3,6 +3,49 @@ include "includes/header.php";
 include "includes/navigation.php";
 ?>
 
+<?php
+
+// LIKE button functionality
+if (isset($_POST['liked'])){
+  //1 FETCHING THE RIGHT POST
+    $post_id = $_POST['post_id'];
+    $user_id = $_POST['user_id'];
+    $query = "SELECT * FROM posts WHERE post_id = $post_id";
+    $post_result = mysqli_query($connection, $query);
+    $post = mysqli_fetch_array($post_result);
+    $likes = $post['likes'];
+
+    //2 UPDATE POSTS WITH LIKES
+    mysqli_query($connection, "UPDATE posts SET likes=$likes+1 WHERE post_id = $post_id");
+
+    //3 CREATE LIKES FOR POST
+    mysqli_query($connection, "INSERT INTO likes(user_id, post_id) VALUES($user_id, $post_id)");
+    exit();
+}
+
+
+// UNLIKE button functionality
+if (isset($_POST['unliked'])){
+    //1 FETCHING THE RIGHT POST
+    $post_id = $_POST['post_id'];
+    $user_id = $_POST['user_id'];
+    $query = "SELECT * FROM posts WHERE post_id = $post_id";
+    $post_result = mysqli_query($connection, $query);
+    $post = mysqli_fetch_array($post_result);
+    $likes = $post['likes'];
+
+    //2 CREATE UNLIKES FOR POST
+    mysqli_query($connection, "UPDATE posts SET likes=$likes-1 WHERE post_id = $post_id");
+
+    //3 DELETING LIKES FROM THE EXACT USER
+    mysqli_query($connection, "DELETE FROM likes WHERE user_id = $user_id AND post_id = $post_id");
+
+    exit();
+}
+
+
+?>
+
     <!-- Page Content -->
     <div class="container">
     <div class="row">
@@ -46,20 +89,32 @@ include "includes/navigation.php";
             </p>
             <!--Blog Post Date--><p><span class="glyphicon glyphicon-time"></span> <?php echo $post_date ?></p>
             <hr>
-            <img class="img-responsive" src="images/<?php echo $post_image; ?>" alt="">
+            <img class="img-responsive" src="../images/<?php echo $post_image; ?>" alt="">
             <hr>
             <!--Blog Post Content--><p><?php echo $post_content ?></p>
             <hr>
 
-            <?php
-            /* Facebook Share button IFRAME*/
-            //Extracting the current URL
-            $actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-            echo '<iframe src="https://www.facebook.com/plugins/share_button.php?href=' . $actual_link . '&layout=button&size=small&width=59&height=20&appId" width="59" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>';
-             ?>
-            <hr>
-            <?php
+<!--<div class="row">-->
+<!-- Like button and Facebook Share button IFRAME -->
 
+    <p><a class="<?php echo userLikedThisPost($the_post_id) ? 'unlike' : 'like'?>" href=""><span class="glyphicon glyphicon-thumbs-up"></span><?php echo userLikedThisPost($the_post_id) ? ' Unlike' : ' Like'?></a></p>
+    <p>Likes: <?php echo getPostLikes($the_post_id); ?></p>
+    <?php
+    //Extracting the current URL
+    $actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    echo '<iframe src="https://www.facebook.com/plugins/share_button.php?href=' . $actual_link . '&layout=button&size=small&width=59&height=20&appId" width="59" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>';
+     ?>
+
+
+
+<!--                --><?php //getPostLikes($the_post_id); ?>
+
+
+<!--</div>-->
+        <br/>
+            <hr>
+
+            <?php
             }
 
             /* If it's not open specific post post_view_counts doesn't work */
@@ -164,8 +219,72 @@ include "includes/navigation.php";
         <!-- /.row -->
         <hr>
 
+
         <!-- Footer -->
-        <?php
-        include "includes/footer.php";
-        ?>
+<footer>
+    <div class="row">
+        <div class="col-lg-12">
+            <p>Copyright &copy; Lilyah Website 2019</p>
+        </div>
+        <!-- /.col-lg-12 -->
     </div>
+    <!-- /.row -->
+</footer>
+
+</div>
+<!-- /.container -->
+
+<!-- jQuery -->
+<script src="../js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../js/bootstrap.min.js"></script>
+
+
+    </div>
+
+
+
+<?php $user_id = $_SESSION['user_id']; ?>
+
+<script>
+
+$(document).ready(function(){
+
+    // LIKE button functionality
+    $('.like').click(function(){
+        var post_id = <?php echo $the_post_id ?>;
+            var user_id = <?php echo $user_id ?>;
+    // console.log("IT WORKS MADA FAKAAAA");
+        $.ajax({
+            url: "../post.php?p_id=<?php echo $the_post_id ?>",
+            type: 'post',
+            data: {
+                'liked': 1,
+                'post_id': post_id,
+                'user_id': user_id
+            }
+        });
+    });
+
+
+
+    // UNLIKE button functionality
+    $('.unlike').click(function(){
+        var post_id = <?php echo $the_post_id ?>;
+        var user_id = <?php echo $user_id ?>;
+        // console.log("IT WORKS MADA FAKAAAA");
+        $.ajax({
+            url: "../post.php?p_id=<?php echo $the_post_id ?>",
+            type: 'post',
+            data: {
+                'unliked': 1,
+                'post_id': post_id,
+                'user_id': user_id
+            }
+        });
+    });
+
+});
+
+</script>

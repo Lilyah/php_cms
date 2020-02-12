@@ -6,6 +6,12 @@ function redirect($location){
 }
 
 
+function query($query){
+    global $connection;
+    return mysqli_query($connection, $query);
+}
+
+
 function confirmQuery($result){
     global $connection;
     if(!$result){
@@ -621,7 +627,7 @@ function usersOnlineInstant()
         global $connection;
 
         if (!$connection) {
-            session_start();
+            //session_start();
             include("../includes/db.php");
 
             $session = session_id(); //catch the id session
@@ -729,6 +735,7 @@ function login_user($username, $password){
         $db_user_role = $row['user_role'];
 
         if(password_verify($password, $db_user_password)){ //Verifies that a password matches a hash
+            $_SESSION['user_id'] = $db_user_id;
             $_SESSION['username'] = $db_username;
             $_SESSION['firstname'] = $db_user_firstname;
             $_SESSION['lastname'] = $db_user_lastname;
@@ -738,6 +745,11 @@ function login_user($username, $password){
                 die("QUERY FAILED" . mysqli_error($connection));
             }
 
+            if(!$_SESSION['user_id']){
+                die("QUERY FAILED user_id:" . mysqli_error($connection));
+            }
+
+
             redirect("admin");
         } else {
             return false;
@@ -745,5 +757,40 @@ function login_user($username, $password){
     }
     return true;
 }
+
+
+function loggedInUserID(){
+    if(isLoggedIn()){
+        $result = query("SELECT * FROM users WHERE username='" . $_SESSION['username'] . "'");
+        confirmQuery($result);
+        $user = mysqli_fetch_array($result);
+        if(mysqli_num_rows($result) >=1){
+            return $user['user_id'];
+        }
+    }
+    return false;
+}
+
+
+
+function userLikedThisPost($post_id=''){
+    $result = query("SELECT * FROM likes WHERE user_id=" . loggedInUserID() . " AND post_id=$post_id");
+    confirmQuery($result);
+    return mysqli_num_rows($result) >= 1 ? true : false;
+}
+
+
+
+function getPostLikes($post_id){
+    $result = query("SELECT likes FROM posts WHERE post_id = $post_id");
+    confirmQuery($result);
+    $row = mysqli_fetch_assoc($result);
+    $likes = $row ['likes'];
+    echo $likes;
+}
+
+
+
+
 
 ?>

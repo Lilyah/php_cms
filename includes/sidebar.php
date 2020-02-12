@@ -1,6 +1,6 @@
 <?php
 include_once "admin/functions.php";
-session_start();
+//session_start();
 
 if(ifItIsMethod('post')){
     if(isset($_POST['login'])) {

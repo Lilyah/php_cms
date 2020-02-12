@@ -36,7 +36,8 @@ include_once "admin/functions.php";
 
                 /* Admin will be visible only for logged in users */
                 /* If a user is logged in he doesnt see the registration and contact forms */
-                if(isset($_SESSION['user_role'])): echo "session going on"?>
+                if(isset($_SESSION['user_role'])){
+                ?>
                 <li>
                     <a href="admin">Admin</a>
                 </li>
@@ -44,8 +45,8 @@ include_once "admin/functions.php";
                     <a href="includes/logout.php">Logout</a>
                 </li>
 
-                <?php endif;
-                if(!isset($_SESSION['user_role'])): ?>
+                <?php }
+                if(!isset($_SESSION['user_role'])){ ?>
                 <li>
                     <a href="login">Login</a>
                 </li>
@@ -56,8 +57,7 @@ include_once "admin/functions.php";
                     <a href="contact">Contact</a>
                 </li>
 
-                <?php
-                endif;
+                <?php };
 
                 /* Registration functionality */
                 /* "Edit Post" will appear in navigation only if user_role is set */
