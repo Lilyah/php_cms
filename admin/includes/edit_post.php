@@ -9,7 +9,7 @@ $select_all_posts_by_id = mysqli_query($connection, $query);
 
 while ($row = mysqli_fetch_assoc($select_all_posts_by_id)) {
     $post_id = $row['post_id'];
-    $post_author = $row['post_author'];
+    $post_user_id = $row['post_user_id'];
     $post_title = $row['post_title'];
     $post_category_id = $row['post_category_id'];
     $post_status = $row['post_status'];
@@ -21,7 +21,8 @@ while ($row = mysqli_fetch_assoc($select_all_posts_by_id)) {
 }
 
 if(isset($_POST['update_post'])){
-    $post_author = mysqli_real_escape_string($connection, $_POST['author']);
+    //$post_user = mysqli_real_escape_string($connection, $_POST['author']);
+    $post_user_id = mysqli_real_escape_string($connection, $_POST['post_user_id']);
     $post_title = mysqli_real_escape_string($connection, $_POST['title']);
     $post_category_id = mysqli_real_escape_string($connection, $_POST['post_category']);
     $post_status = mysqli_real_escape_string($connection, $_POST['post_status']);
@@ -45,7 +46,7 @@ if(isset($_POST['update_post'])){
     $query .= "post_title = '{$post_title}', ";
     $query .= "post_category_id = '{$post_category_id}', ";
     $query .= "post_date = now(), ";
-    $query .= "post_author = '{$post_author}', ";
+    $query .= "post_user_id = '{$post_user_id}', ";
     $query .= "post_status = '{$post_status}', ";
     $query .= "post_tags = '{$post_tags}', ";
     $query .= "post_content = '{$post_content}', ";
@@ -95,10 +96,9 @@ if(isset($_POST['update_post'])){
         </select>
     </div>
 
-    <div class="form-group">
-        <label for="title">Post Author</label>
+    <div class="form-group" id="author">
+        <label for="users">Users</label>
         <br>
-
         <?php
         $query = "SELECT * FROM users ";
         $select_all_users_query = mysqli_query($connection, $query);
@@ -107,19 +107,38 @@ if(isset($_POST['update_post'])){
 
         if($user_role == 'subscriber'){
             /* the author of the post to be only the loged in user */
+            echo $_SESSION['username'];
             ?>
-            <input class="no-border" name="author" value="<?php echo $post_author ?>" readonly>
+            <input class="no-border" name="user" value="<?php echo $_SESSION['username']; ?>" readonly>
             <?php
+            $user_id = $row ['user_id'];
         }
 
         if ($user_role == 'admin'){
             /* if the loged in user is admin he can publish posts from any user from the db */
             ?>
-            <select name="author" id="">
-                <?php
-                echo "<option value='{$post_author}'>$post_author</option>";
 
-                $query = "SELECT username FROM users ORDER BY username ASC";
+            <select name="post_user_id" id="">
+                <?php
+                $query = "SELECT post_user_id FROM posts WHERE post_id = $the_post_id";
+                $select_post_user_id = mysqli_query($connection, $query);
+                confirmQuery($select_post_user_id);
+
+                $row = mysqli_fetch_assoc($select_post_user_id);
+                $post_user_id = $row['post_user_id'];
+
+                $query = "SELECT username FROM users WHERE user_id = $post_user_id";
+                $select_username = mysqli_query($connection, $query);
+
+                confirmQuery($select_username);
+
+                $row = mysqli_fetch_assoc($select_username);
+                $username = $row['username'];
+
+                echo "<option value='$post_user_id'>$username</option>";
+
+                //$query = "SELECT username FROM users ORDER BY username ASC";
+                $query = "SELECT * FROM users ORDER BY username ASC";
                 $select_user = mysqli_query($connection, $query);
 
                 confirmQuery($select_user);
@@ -127,15 +146,46 @@ if(isset($_POST['update_post'])){
                 /* Setting the user names for the dropdown in add_post */
                 while ($row = mysqli_fetch_assoc($select_user)) {
                     $username = $row['username'];
+                    $post_user_id = $row['user_id'];
 
-                    echo "<option value='{$username}'>$username</option>";
+                    //to be selected the original author
+                    echo "<option value='$post_user_id'>$username</option>";
+
                 }
+
                 ?>
             </select>
-        <?php
+
+
+<!--            OLD SELECT-->
+<!--            <select name="post_user_id" id="">-->
+<!--                --><?php
+//                //to be selected the original author
+//                echo "<option value='$post_user_id'>$post_user_id</option>";
+//
+//                //$query = "SELECT username FROM users ORDER BY username ASC";
+//                $query = "SELECT * FROM users ORDER BY username ASC";
+//                $select_user = mysqli_query($connection, $query);
+//
+//                confirmQuery($select_user);
+//
+//                /* Setting the user names for the dropdown in add_post */
+//                while ($row = mysqli_fetch_assoc($select_user)) {
+//                    $username = $row['username'];
+//                    $user_id = $row['user_id'];
+//
+//                    // echo "<option value='{$username}'>$username</option>";
+//                    echo "<option value='$username'>$username</option>";
+//                }
+//                ?>
+<!--            </select>-->
+
+
+
+
+            <?php
         }
         ?>
-    </div>
 
     <div class="form-group">
         <label for="title">Post Status</label>

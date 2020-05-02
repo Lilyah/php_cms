@@ -128,7 +128,7 @@ deletePosts();
             <th><input type="checkbox" id="selectAllBoxes"></th>
 
             <th>Id</th>
-            <th>Author</th>
+            <th>User</th>
             <th>Title</th>
             <th>Category</th>
             <th>Status</th>

@@ -3,7 +3,8 @@
 if(isset($_POST['create_post'])){
 
     $post_title = mysqli_real_escape_string($connection, $_POST['title']);
-    $post_author = mysqli_real_escape_string($connection, $_POST['author']);
+    //$post_author = mysqli_real_escape_string($connection, $_POST['author']);
+    $post_user_id = mysqli_real_escape_string($connection, $_POST['post_user_id']);
     $post_category_id = mysqli_real_escape_string($connection, $_POST['post_category']);
     $post_status = mysqli_real_escape_string($connection,$_POST['post_status']);
 
@@ -12,11 +13,13 @@ if(isset($_POST['create_post'])){
 
     $post_tags = mysqli_real_escape_string($connection, $_POST['post_tags']);
     $post_content = mysqli_real_escape_string($connection, $_POST['post_content']);
-    $post_date = mysqli_real_escape_string(date('d-m-y'));
+    $post_date = mysqli_real_escape_string($connection, date('d-m-y'));
+
+//    $user_id = mysqli_real_escape_string($connection, $_POST['user_id']);
 
     move_uploaded_file($post_image_temp, "../images/$post_image");
 
-    $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_status) VALUES ({$post_category_id},'{$post_title}','{$post_author}', now(),'{$post_image}','{$post_content}','{$post_tags}','{$post_status}')";
+    $query = "INSERT INTO posts(post_category_id, post_title, post_user_id, post_date, post_image, post_content, post_tags, post_status) VALUES ({$post_category_id},'{$post_title}','{$post_user_id}', now(),'{$post_image}','{$post_content}','{$post_tags}','{$post_status}')";
 
     $create_post_query = mysqli_query($connection, $query);
 
@@ -51,7 +54,8 @@ if(isset($_POST['create_post'])){
 
     <!-- Dropdown menu for selecting categories -->
     <div class="form-group">
-        <label for="post_category">Post Category</label>
+<!--        <label for="post_category">Post Category</label>-->
+        <label for="category">Post Category</label>
         <br>
         <select name="post_category" id="">
             <?php
@@ -72,35 +76,38 @@ if(isset($_POST['create_post'])){
 
 
 
+
+
+
     <div class="form-group" id="author">
-        <label for="author">Post Author</label>
+        <label for="users">Users</label>
         <br>
 <?php
-
 
 $query = "SELECT * FROM users ";
 $select_all_users_query = mysqli_query($connection, $query);
 $row = mysqli_fetch_assoc($select_all_users_query);
 $user_role = $row ['user_role'];
+$post_user_id = $row ['user_id'];
 
 //$user_role = $_SESSION['user_role'];
 
     if($user_role == 'subscriber'){
         /* the author of the post to be only the loged in user */
-        //echo $_SESSION['username'];
+        echo $_SESSION['username'];
 ?>
-        <input class="no-border" name="author" value="<?php echo $_SESSION['username']; ?>" readonly>
-<?php
-
-        //echo $_SESSION['user_role'];
-    }
+            <input class="no-border" name="post_user_id" value="<?php echo $_SESSION['username']; ?>" readonly>
+    <?php
+            $post_user_id = $row ['post_user_id'];
+        }
 
     if ($user_role == 'admin'){
     /* if the loged in user is admin he can publish posts from any user from the db */
     ?>
-        <select name="author" id="">
+        <select name="post_user_id" id="">
             <?php
-            $query = "SELECT username FROM users ORDER BY username ASC";
+            //$query = "SELECT username FROM users ORDER BY username ASC";
+            $query = "SELECT * FROM users ORDER BY username ASC";
             $select_user = mysqli_query($connection, $query);
 
             confirmQuery($select_user);
@@ -108,11 +115,15 @@ $user_role = $row ['user_role'];
             /* Setting the user names for the dropdown in add_post */
             while ($row = mysqli_fetch_assoc($select_user)) {
                 $username = $row['username'];
+                $post_user_id = $row['user_id'];
 
-                echo "<option value='{$username}'>$username</option>";
+                echo "<option value='$post_user_id'>$username</option>";
+
             }
-            ?>
+
+        ?>
         </select>
+
         <?php
         }
         ?>

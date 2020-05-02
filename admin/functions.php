@@ -8,7 +8,14 @@ function redirect($location){
 
 function query($query){
     global $connection;
-    return mysqli_query($connection, $query);
+    $result = mysqli_query($connection, $query);
+    confirmQuery($result);
+    return $result;
+}
+
+
+function fetchRecords($result){
+    return mysqli_fetch_array($result);
 }
 
 
@@ -176,6 +183,7 @@ function findAllPosts()
         while ($row = mysqli_fetch_assoc($select_all_posts_query)) {
             $post_id = $row ['post_id'];
             $post_author = $row ['post_author'];
+            $post_user_id = $row ['post_user_id'];
             $post_title = $row['post_title'];
             $post_category_id = $row ['post_category_id'];
             $post_status = $row ['post_status'];
@@ -192,7 +200,28 @@ function findAllPosts()
                        value='<?php echo $post_id ?>'></td>
             <?php
             echo "<td>{$post_id}</td>";
-            echo "<td>{$post_author}</td>";
+
+            if(!empty($post_author)){
+                echo "<td>{$post_author}</td>";
+            } elseif (!empty($post_user_id)) {
+//                echo "<td>{$post_user_id}</td>";
+
+                $query = "SELECT * FROM users WHERE user_id = $post_user_id";
+                $select_user_id = mysqli_query($connection, $query);
+                confirmQuery($select_user_id);
+                /* Setting the usernames and user_id for the table from the DB */
+                while ($row = mysqli_fetch_assoc($select_user_id)) {
+                    $user_id = $row['user_id'];
+                    $post_author = $row['username'];
+
+                    echo "<td>{$post_author}</td>";
+
+                }
+            }
+
+
+            //echo "<td>{$post_author}</td>";
+
             echo "<td>{$post_title}</td>";
 
 
@@ -708,6 +737,73 @@ function register_user($username, $email, $password){
     }
 }
 
+function get_username(){
+    return isset($_SESSION['username']) ? $_SESSION['username'] : null;
+}
+
+
+function get_user_id(){
+    return isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+}
+
+
+
+function get_all_user_post_by_username(){
+    global $connection;
+     $query = "SELECT * FROM posts WHERE post_author=" . get_username() . "";
+     $get_username_query = mysqli_query($connection, $query);
+
+//        query("SELECT * FROM posts WHERE post_author=". get_username() ."");
+
+     confirmQuery($get_username_query);
+     return $get_username_query;
+}
+
+function get_all_user_post_by_user_id(){
+    global $connection;
+    $query = "SELECT * FROM posts WHERE post_user_id=" . get_user_id() . "";
+    $get_user_id_query = mysqli_query($connection, $query);
+
+//        query("SELECT * FROM posts WHERE post_author=". get_username() ."");
+
+    confirmQuery($get_user_id_query);
+    return $get_user_id_query;
+}
+
+
+
+function get_all_user_comments_by_user_id(){
+    global $connection;
+    $query = "SELECT * FROM comments WHERE comment_author=" . get_user_id() . "";
+    $get_user_id_query = mysqli_query($connection, $query);
+
+    confirmQuery($get_user_id_query);
+    return $get_user_id_query;
+}
+
+
+
+
+function count_records($result){
+    return mysqli_num_rows($result);
+}
+
+
+
+function is_admin(){
+    if(isLoggedIn()){
+        $result = query("SELECT user_role FROM users WHERE user_id=".$_SESSION['user_id']."");
+
+        $row = fetchRecords($result);
+
+        if($row['user_role']=='admin'){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    return false;
+}
 
 
 function login_user($username, $password){

@@ -19,10 +19,7 @@ include_once "functions.php";
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Welcome to admin,
-                        <?php echo strtoupper(get_username()); //the username?>
-                        <br/>
-                        <small>Your Role: <?php echo $_SESSION['user_role']?></small>
+                        Welcome to admin, <?php echo strtoupper(get_username()); //the username?>
                     </h1>
                 </div>
             </div>
@@ -32,7 +29,7 @@ include_once "functions.php";
                 <!-- /.row -->
 
                 <div class="row">
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <div class="row">
@@ -42,10 +39,9 @@ include_once "functions.php";
                                     <div class="col-xs-9 text-right">
                                         <?php
                                         /* Counting the posts for the admin dashboard */
-
-
-
-                                        $post_count = count_records(get_all_user_post_by_user_id());
+                                        $query = "SELECT * FROM posts";
+                                        $select_all_posts = mysqli_query($connection, $query);
+                                        $post_count = mysqli_num_rows($select_all_posts);
                                         echo "<div class='huge'>{$post_count}</div>"
                                         ?>
                                         <div>Posts</div>
@@ -61,7 +57,7 @@ include_once "functions.php";
                             </a>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="panel panel-green">
                             <div class="panel-heading">
                                 <div class="row">
@@ -71,7 +67,9 @@ include_once "functions.php";
                                     <div class="col-xs-9 text-right">
                                         <?php
                                         /* Counting the comments for the admin dashboard */
-                                        $comments_count = count_records(get_all_user_comments_by_user_id());
+                                        $query = "SELECT * FROM comments";
+                                        $select_all_comments = mysqli_query($connection, $query);
+                                        $comments_count = mysqli_num_rows($select_all_comments);
                                         echo "<div class='huge'>{$comments_count}</div>"
                                         ?>
                                         <div>Comments</div>
@@ -87,7 +85,35 @@ include_once "functions.php";
                             </a>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-user fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <?php
+                                        /* Counting the users for the admin dashboard */
+                                        $query = "SELECT * FROM users";
+                                        $select_all_users = mysqli_query($connection, $query);
+                                        $users_count = mysqli_num_rows($select_all_users);
+                                        echo "<div class='huge'>{$users_count}</div>"
+                                        ?>
+                                        <div>Users</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="users.php">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
                         <div class="panel panel-red">
                             <div class="panel-heading">
                                 <div class="row">
@@ -120,7 +146,6 @@ include_once "functions.php";
 
                 <?php
                 /* Published posts for the chart in dashboard */
-                /* This section is not personalized for the specific user!!!!!!!!!! */
                 $query = "SELECT * FROM posts WHERE post_status = 'published'";
                 $select_all_published_posts = mysqli_query($connection, $query);
                 $post_published_count = mysqli_num_rows($select_all_published_posts);
@@ -155,11 +180,11 @@ include_once "functions.php";
 
                                 <?php
                                 /* Displaying the data in the chart in dashboard dynamically */
-                                $element_text = ['All Posts', 'Active Post', 'Draft Posts', 'Comments', 'Pending comments', 'Categories'];
-                                $element_count = [$post_count, $post_published_count, $post_draft_count, $comments_count, $unapproved_comments_count, $categories_count];
+                                $element_text = ['All Posts', 'Active Post', 'Draft Posts', 'Comments', 'Pending comments', 'Users', 'Subscribers', 'Categories'];
+                                $element_count = [$post_count, $post_published_count, $post_draft_count, $comments_count, $unapproved_comments_count, $users_count, $subscriber_count, $categories_count];
 
                                 /* $i goes "in to" $element_text and $element_count and print out the values */
-                                for($i=0; $i<6; $i++){
+                                for($i=0; $i<8; $i++){
                                     echo "['{$element_text[$i]}'" . ", " . "{$element_count[$i]}], ";
                                 }
                                 ?>
